@@ -60,7 +60,7 @@ Este projeto oferece uma plataforma completa para análise de currículos, permi
 ## 📁 Estrutura do Projeto
 
 ```
-assistente-ia/
+
 ├── backend/                    # API NestJS
 │   ├── src/
 │   │   ├── analysis/          # Módulo de análise de currículos
@@ -107,7 +107,6 @@ assistente-ia/
 
 ```bash
 git clone <url-do-repositorio>
-cd assistente-ia
 ```
 
 ### 2. Configure as Variáveis de Ambiente
@@ -124,7 +123,7 @@ nano .env
 
 ```env
 # Banco de Dados
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/assistente_ia
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/carreira_ai
 
 # JWT
 JWT_SECRET=seu-secret-aqui

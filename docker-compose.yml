@@ -3,11 +3,11 @@ version: "3.8"
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: assistente-ia-postgres
+    container_name: carreira-ia-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: ${POSTGRES_DB:-assistente_ia}
+      POSTGRES_DB: ${POSTGRES_DB:-carreira_ia}
     ports:
       - "5433:5432"
     volumes:
@@ -20,7 +20,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: assistente-ia-redis
+    container_name: carreira-ia-redis
     ports:
       - "6379:6379"
     volumes:
@@ -32,12 +32,13 @@ services:
       retries: 5
 
   backend:
+    image: carreira-ia-backend
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: assistente-ia-backend
+    container_name: carreira-ia-backend
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-assistente_ia}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-carreira_ia}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
@@ -57,15 +58,16 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: npm run start:dev
+    command: sh -c "npx prisma migrate deploy && npm run start:dev"
 
   worker:
+    image: carreira-ia-worker
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: assistente-ia-worker
+    container_name: carreira-ia-worker
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-assistente_ia}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-carreira_ia}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
@@ -85,10 +87,11 @@ services:
     command: npm run start:worker
 
   frontend:
+    image: carreira-ia-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: assistente-ia-frontend
+    container_name: carreira-ia-frontend
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:3001
       NODE_ENV: ${NODE_ENV:-development}
@@ -106,3 +109,7 @@ volumes:
   postgres_data:
   redis_data:
   uploads:
+
+networks:
+  default:
+    name: carreira-ia-network

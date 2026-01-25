@@ -1,5 +1,5 @@
 {
-  "name": "assistente-ia-frontend",
+  "name": "carreira-ia-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -40,4 +40,3 @@
     "eslint-config-next": "14.0.4"
   }
 }
-
