@@ -1,10 +1,24 @@
 # 🤖 Assistente de Análise de Currículos com IA
 
-[![Backend CI](https://github.com/{usuario}/{repo}/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/{usuario}/{repo}/actions/workflows/backend-ci.yml)
-[![Frontend CI](https://github.com/{usuario}/{repo}/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/{usuario}/{repo}/actions/workflows/frontend-ci.yml)
-[![Docker Build](https://github.com/{usuario}/{repo}/actions/workflows/docker.yml/badge.svg)](https://github.com/{usuario}/{repo}/actions/workflows/docker.yml)
+<p align="center">
+   <b>Projeto Fullstack: NestJS + Next.js + IA Generativa</b>
+</p>
 
 Sistema inteligente para análise automatizada de currículos utilizando IA, desenvolvido com NestJS, Next.js e integração com múltiplos modelos de linguagem (Gemini, OpenAI, Groq).
+
+## 🖼️ Previews
+
+Veja abaixo algumas telas da aplicação:
+
+<p align="center">
+   <img src="previews/landing-page.png" alt="Landing Page" width="700" />
+   <br/>
+   <img src="previews/dashboard.png" alt="Dashboard" width="700" />
+   <br/>
+   <img src="previews/score.png" alt="Detalhe de Score" width="700" />
+</p>
+
+---
 
 ## 📋 Sobre o Projeto
 
@@ -26,7 +40,7 @@ Este projeto oferece uma plataforma completa para análise de currículos, permi
 - ⚡ **Processamento Assíncrono** com filas (BullMQ)
 - 🔄 **Atualização em Tempo Real** do status das análises
 
-## 🛠️ Tecnologias
+## 🛠️ Tecnologias Principais
 
 ### Backend
 
@@ -38,6 +52,7 @@ Este projeto oferece uma plataforma completa para análise de currículos, permi
 - **[Redis](https://redis.io/)** - Cache e gerenciamento de filas
 - **[Passport JWT](http://www.passportjs.org/)** - Autenticação com tokens
 - **[pdf-parse](https://www.npmjs.com/package/pdf-parse)** - Extração de texto de PDFs
+- **[Swagger](https://swagger.io/)** - Documentação interativa da API
 
 ### Frontend
 
@@ -45,7 +60,7 @@ Este projeto oferece uma plataforma completa para análise de currículos, permi
 - **[React 18](https://react.dev/)** - Biblioteca JavaScript para UI
 - **[TypeScript](https://www.typescriptlang.org/)** - Tipagem estática
 - **[Tailwind CSS](https://tailwindcss.com/)** - Framework CSS utility-first
-- **[Radix UI](https://www.radix-ui.com/)** - Componentes acessíveis
+- **[Shadcn/ui](https://ui.shadcn.com/)** - Componentes acessíveis e modernos
 - **[Axios](https://axios-http.com/)** - Cliente HTTP
 - **[React Hook Form](https://react-hook-form.com/)** - Gerenciamento de formulários
 - **[Zod](https://zod.dev/)** - Validação de schemas
@@ -53,7 +68,7 @@ Este projeto oferece uma plataforma completa para análise de currículos, permi
 ### IA & APIs
 
 - **[Google Gemini](https://ai.google.dev/)** - Modelo de IA do Google
-- **[OpenAI GPT](https://platform.openai.com/)** - Modelos GPT-4/3.5
+- **[OpenAI GPT](https://platform.openai.com/)** - Modelos free
 - **[Groq](https://groq.com/)** - LLMs de alta performance
 
 ### DevOps
@@ -61,42 +76,55 @@ Este projeto oferece uma plataforma completa para análise de currículos, permi
 - **[Docker](https://www.docker.com/)** - Containerização
 - **[Docker Compose](https://docs.docker.com/compose/)** - Orquestração de containers
 
+---
+
 ## 📁 Estrutura do Projeto
 
 ```
-
-├── backend/                    # API NestJS
+├── backend/                      # API NestJS
 │   ├── src/
-│   │   ├── analysis/          # Módulo de análise de currículos
-│   │   │   ├── ai.service.ts         # Integração com APIs de IA
-│   │   │   ├── analysis.processor.ts # Processador de fila
-│   │   │   └── config/               # Configuração de prompts
-│   │   ├── auth/              # Autenticação e autorização
-│   │   ├── upload/            # Upload de arquivos
-│   │   ├── prisma/            # Cliente Prisma
-│   │   └── shared/            # Utilitários compartilhados
+│   │   ├── analysis/             # Módulo de análise de currículos (serviços, controller, processor)
+│   │   ├── auth/                 # Autenticação e autorização
+│   │   ├── health/               # Health check
+│   │   ├── prisma/               # Cliente Prisma
+│   │   ├── shared/               # Utilitários, tipos e middlewares
+│   │   ├── upload/               # Upload de arquivos
+│   │   ├── app.module.ts         # Módulo principal
+│   │   ├── main.ts               # Bootstrap da API
+│   │   └── worker.ts             # Worker BullMQ
 │   ├── prisma/
-│   │   ├── schema.prisma      # Schema do banco de dados
-│   │   └── migrations/        # Migrations do Prisma
-│   └── package.json
+│   │   ├── schema.prisma         # Schema do banco de dados
+│   │   └── migrations/           # Migrations do Prisma
+│   ├── uploads/                  # Currículos enviados
+│   ├── test/                     # Testes e2e
+│   ├── package.json
+│   └── Dockerfile
 │
-├── frontend/                   # Interface Next.js
-│   ├── app/                   # App Router (Next.js 14)
-│   │   ├── dashboard/         # Área logada
-│   │   ├── login/             # Página de login
-│   │   └── register/          # Página de registro
-│   ├── components/            # Componentes React
-│   │   ├── Analysis/          # Componentes de análise
-│   │   ├── Dashboard/         # Componentes do dashboard
-│   │   └── ui/                # Componentes base (Radix UI)
-│   ├── context/               # Contextos React
-│   ├── hooks/                 # Hooks customizados
-│   ├── lib/                   # Utilitários e API client
-│   └── package.json
+├── frontend/                     # Interface Next.js
+│   ├── app/                      # App Router (Next.js 14)
+│   │   ├── dashboard/            # Área logada
+│   │   ├── login/                # Página de login
+│   │   ├── register/             # Página de registro
+│   │   ├── layout.tsx            # Layout global
+│   │   └── page.tsx              # Landing page
+│   ├── components/               # Componentes React
+│   │   ├── Analysis/             # Componentes de análise
+│   │   ├── Dashboard/            # Componentes do dashboard
+│   │   ├── ui/                   # Componentes base (shadcn/ui)
+│   │   ├── LoadingSpinner.tsx
+│   │   └── ProtectedRoute.tsx
+│   ├── constants/                # Constantes globais
+│   ├── context/                  # Contextos React
+│   ├── hooks/                    # Hooks customizados
+│   ├── lib/                      # Utilitários e API client
+│   ├── types/                    # Tipos TypeScript
+│   ├── utils/                    # Funções utilitárias
+│   ├── package.json
+│   └── Dockerfile
 │
-├── docker-compose.yml         # Configuração Docker
-├── .env.example              # Template de variáveis de ambiente
-└── README.md                 # Este arquivo
+├── docker-compose.yml            # Configuração Docker
+├── .env.example                  # Template de variáveis de ambiente
+└── README.md                     # Este arquivo
 ```
 
 ## 🚀 Como Executar
@@ -179,9 +207,10 @@ docker-compose logs -f
 
 ### 4. Acesse a Aplicação
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:3001](http://localhost:3001)
 - **Banco de Dados**: localhost:5433
+- **Swagger (API Docs)**: [http://localhost:3001/api](http://localhost:3001/api)
 
 ### 5. Crie uma Conta
 
@@ -290,6 +319,8 @@ O sistema avalia currículos em 5 categorias principais:
 
 ## 🤝 Contribuindo
 
+Tem sugestões, bugs ou quer discutir ideias? Use a aba <a href="../../issues">Issues</a> ou <a href="../../discussions">Discussões</a> do GitHub!
+
 Contribuições são bem-vindas! Sinta-se à vontade para:
 
 1. Fazer fork do projeto
@@ -301,6 +332,8 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 ## 📝 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+---
 
 ## 🚀 CI/CD
 
@@ -346,10 +379,10 @@ Para o workflow de Docker funcionar, configure no repositório:
 
 - `GITHUB_TOKEN` (automático)
 
-## �👤 Autor
-
-Desenvolvido com ❤️ para facilitar processos de recrutamento
-
 ---
 
-**⭐ Se este projeto foi útil, considere dar uma estrela!**
+## 👤 Autor
+
+Gabriel Macena
+
+Espero que tenha gostado do projeto! Qualquer dúvida ou sugestão, fique à vontade para abrir uma issue ou entrar em contato.
