@@ -55,7 +55,7 @@ describe('AuthService', () => {
     it('deve registrar um novo usuário', async () => {
       const dto = { name: 'Test', email: 'test@example.com', password: 'pass' };
       prismaService.user.findUnique.mockResolvedValue(null);
-      jest.spyOn(bcryptjs, 'hash').mockResolvedValue('hashed');
+      jest.spyOn(bcryptjs, 'hash').mockImplementation(async () => 'hashed');
       prismaService.user.create.mockResolvedValue({
         id: '1',
         name: 'Test',
@@ -90,7 +90,7 @@ describe('AuthService', () => {
         createdAt: new Date(),
       };
       prismaService.user.findUnique.mockResolvedValue(user);
-      jest.spyOn(bcryptjs, 'compare').mockResolvedValue(true);
+      jest.spyOn(bcryptjs, 'compare').mockImplementation(async () => true);
       jwtService.sign.mockReturnValue('token');
 
       const result = await service.login(dto);
