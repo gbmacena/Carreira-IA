@@ -1,5 +1,9 @@
 # 🤖 Assistente de Análise de Currículos com IA
 
+[![Backend CI](https://github.com/{usuario}/{repo}/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/{usuario}/{repo}/actions/workflows/backend-ci.yml)
+[![Frontend CI](https://github.com/{usuario}/{repo}/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/{usuario}/{repo}/actions/workflows/frontend-ci.yml)
+[![Docker Build](https://github.com/{usuario}/{repo}/actions/workflows/docker.yml/badge.svg)](https://github.com/{usuario}/{repo}/actions/workflows/docker.yml)
+
 Sistema inteligente para análise automatizada de currículos utilizando IA, desenvolvido com NestJS, Next.js e integração com múltiplos modelos de linguagem (Gemini, OpenAI, Groq).
 
 ## 📋 Sobre o Projeto
@@ -102,6 +106,28 @@ Este projeto oferece uma plataforma completa para análise de currículos, permi
 - Node.js 18+
 - Docker e Docker Compose
 - Chave de API de pelo menos um provedor de IA (Gemini, OpenAI ou Groq)
+
+### Scripts de Desenvolvimento
+
+```bash
+# Iniciar desenvolvimento completo
+npm run dev
+
+# Parar serviços
+npm run dev:down
+
+# Ver logs
+npm run dev:logs
+
+# Executar todos os testes
+npm run test
+
+# Executar lint em todo o projeto
+npm run lint
+
+# Limpar volumes e containers
+npm run clean
+```
 
 ### 1. Clone o Repositório
 
@@ -276,7 +302,51 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-## 👤 Autor
+## 🚀 CI/CD
+
+Este projeto utiliza GitHub Actions para Continuous Integration.
+
+### Workflows Disponíveis
+
+- **Backend CI** (`.github/workflows/backend-ci.yml`): Executa testes unitários, e2e, lint e build do backend
+- **Frontend CI** (`.github/workflows/frontend-ci.yml`): Executa testes unitários, lint e build do frontend
+- **Docker Build** (`.github/workflows/docker.yml`): Build e push das imagens Docker para GitHub Container Registry
+
+### Como Usar
+
+1. **Push para main/develop**: Dispara testes automáticos
+2. **Pull Requests**: Validação automática de código
+3. **Merge**: Build e push de imagens Docker
+
+### Imagens Docker
+
+As imagens são publicadas no GitHub Container Registry:
+
+- `ghcr.io/{usuario}/{repo}/backend:latest`
+- `ghcr.io/{usuario}/{repo}/frontend:latest`
+
+Para usar em produção:
+
+```yaml
+# docker-compose.prod.yml
+version: "3.8"
+services:
+  backend:
+    image: ghcr.io/{usuario}/{repo}/backend:latest
+    # ... outros configs
+
+  frontend:
+    image: ghcr.io/{usuario}/{repo}/frontend:latest
+    # ... outros configs
+```
+
+### Secrets Necessários
+
+Para o workflow de Docker funcionar, configure no repositório:
+
+- `GITHUB_TOKEN` (automático)
+
+## �👤 Autor
 
 Desenvolvido com ❤️ para facilitar processos de recrutamento
 
