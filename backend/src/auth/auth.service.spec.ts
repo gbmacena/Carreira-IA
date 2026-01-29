@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
+import * as bcryptjs from 'bcryptjs';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -54,9 +55,7 @@ describe('AuthService', () => {
     it('deve registrar um novo usuário', async () => {
       const dto = { name: 'Test', email: 'test@example.com', password: 'pass' };
       prismaService.user.findUnique.mockResolvedValue(null);
-      (jest.spyOn as any)(require('bcryptjs'), 'hash').mockResolvedValue(
-        'hashed',
-      );
+      jest.spyOn(bcryptjs, 'hash').mockResolvedValue('hashed');
       prismaService.user.create.mockResolvedValue({
         id: '1',
         name: 'Test',
@@ -91,9 +90,7 @@ describe('AuthService', () => {
         createdAt: new Date(),
       };
       prismaService.user.findUnique.mockResolvedValue(user);
-      (jest.spyOn as any)(require('bcryptjs'), 'compare').mockResolvedValue(
-        true,
-      );
+      jest.spyOn(bcryptjs, 'compare').mockResolvedValue(true);
       jwtService.sign.mockReturnValue('token');
 
       const result = await service.login(dto);

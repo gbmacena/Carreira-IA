@@ -5,7 +5,6 @@ import { getQueueToken } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { BadRequestException } from '@nestjs/common';
 import * as fs from 'fs';
-import * as path from 'path';
 
 describe('UploadService', () => {
   let service: UploadService;
