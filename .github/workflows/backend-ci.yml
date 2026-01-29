@@ -96,3 +96,4 @@ jobs:
           JWT_SECRET: test-jwt-secret
           JWT_REFRESH_SECRET: test-refresh-secret
           NODE_ENV: test
+          GROQ_API_KEY: fake-key
