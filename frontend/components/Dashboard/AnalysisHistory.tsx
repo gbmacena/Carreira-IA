@@ -151,8 +151,8 @@ function AnalysisCard({ analysis, onDelete }: AnalysisCardProps) {
 
       {/* Error Alert Modal */}
       {showErrorAlert && errorMessage && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-6 animate-in fade-in">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-6 animate-in fade-in relative">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <AlertCircle className="w-6 h-6 text-red-600" />
@@ -162,7 +162,7 @@ function AnalysisCard({ analysis, onDelete }: AnalysisCardProps) {
                   Erro ao processar análise
                 </h3>
                 <p className="text-sm text-red-800 mb-4">{analysis.fileName}</p>
-                <div className="bg-red-50 border border-red-200 rounded p-3 mb-4">
+                <div className="bg-red-50 border border-red-200 rounded p-3 mb-4 max-h-32 overflow-y-auto">
                   <p className="text-xs text-red-700 font-mono break-words">
                     {errorMessage}
                   </p>
