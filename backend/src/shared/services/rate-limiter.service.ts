@@ -8,7 +8,7 @@ interface RateLimitRecord {
 @Injectable()
 export class RateLimiterService {
   private readonly store = new Map<string, RateLimitRecord>();
-  private readonly WINDOW_MS = 60 * 1000;
+  private readonly WINDOW_MS = 24 * 60 * 60 * 1000;
   private readonly MAX_REQUESTS = 5;
 
   isAllowed(userId: string): boolean {

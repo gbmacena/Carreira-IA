@@ -26,12 +26,13 @@ export class RateLimitGuard implements CanActivate {
 
     if (!this.rateLimiter.isAllowed(userId)) {
       const resetTime = this.rateLimiter.getResetTime(userId);
-      const retryAfter = Math.ceil((resetTime - Date.now()) / 1000);
+      const retryAfterSeconds = Math.ceil((resetTime - Date.now()) / 1000);
+      const retryAfterHours = Math.ceil(retryAfterSeconds / 3600);
 
-      response.set('Retry-After', retryAfter.toString());
+      response.set('Retry-After', retryAfterSeconds.toString());
 
       throw new HttpException(
-        `Muitas requisições. Tente novamente em ${retryAfter} segundos.`,
+        `Limite diário de análises atingido. Tente novamente em aproximadamente ${retryAfterHours} hora(s).`,
         HttpStatus.TOO_MANY_REQUESTS,
       );
     }
