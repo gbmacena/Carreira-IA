@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,14 +8,13 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  analyses Analysis[]
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  analyses      Analysis[]
   refreshTokens RefreshToken[]
 
   @@map("users")
@@ -30,45 +26,36 @@ model RefreshToken {
   userId    String
   expiresAt DateTime
   createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("refresh_tokens")
 }
 
 model Analysis {
-  id          String   @id @default(uuid())
-  userId      String
-  fileName    String
-  filePath    String
-  status      AnalysisStatus @default(PENDING)
-  jobId       String?
-  
-  generalSummary String?
-  estimatedLevel String? 
-  candidateLevel String? 
-  atsScore Float? 
+  id              String         @id @default(uuid())
+  userId          String
+  fileName        String
+  filePath        String
+  status          AnalysisStatus @default(PENDING)
+  jobId           String?
+  generalSummary  String?
+  estimatedLevel  String?
   overallOverview String?
-  
-  strengths    Json?
-  weaknesses   Json?
-  suggestions  Json?
-  
+  strengths       Json?
+  weaknesses      Json?
+  suggestions     Json?
   sectionFeedback Json?
-  
-  jobDescription String?
-  jobMatch       Json? 
-  
-  scores Json? 
-  overallScore Float? 
-  
-  errorMessage String?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  completedAt DateTime?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobDescription  String?
+  jobMatch        Json?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  completedAt     DateTime?
+  overallScore    Float?
+  scores          Json?
+  candidateLevel  String?
+  atsScore        Float?
+  errorMessage    String?
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("analyses")
 }
@@ -79,4 +66,3 @@ enum AnalysisStatus {
   COMPLETED
   FAILED
 }
-

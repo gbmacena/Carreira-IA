@@ -3,7 +3,6 @@ import ProtectedRoute from "../ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
-// Mock the hooks
 jest.mock("@/context/AuthContext");
 jest.mock("next/navigation");
 

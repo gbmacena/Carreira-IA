@@ -108,7 +108,6 @@ export class AnalysisProcessor extends WorkerHost {
   }
 
   private formatErrorMessage(message: string): string {
-    // Retornar mensagem amigável baseada no erro
     if (message.includes('token') || message.includes('quota')) {
       return 'Limite de análises atingido ou erro de autenticação com serviço de IA. Tente novamente mais tarde.';
     }
@@ -133,7 +132,6 @@ export class AnalysisProcessor extends WorkerHost {
       return message;
     }
 
-    // Truncar mensagem muito longa
     if (message.length > 200) {
       return message.substring(0, 200) + '...';
     }

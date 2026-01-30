@@ -64,7 +64,6 @@ export class ErrorHandler {
       );
     }
 
-    // Mensagem de erro genérica mas informativa
     const errorMessage =
       error.message || 'Erro desconhecido ao processar a análise';
     throw new HttpException(

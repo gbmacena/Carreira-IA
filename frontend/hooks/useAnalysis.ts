@@ -42,20 +42,17 @@ export function useAnalysis() {
         a.status === ANALYSIS_STATUS.PROCESSING,
     );
 
-    // Limpar interval existente
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
 
-    // Criar novo interval apenas se houver análises pendentes
     if (hasPendingAnalyses) {
       intervalRef.current = setInterval(() => {
         loadHistory();
       }, API_CONFIG.POLLING_INTERVAL);
     }
 
-    // Cleanup function
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
