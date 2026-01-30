@@ -1,0 +1,9 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Robôzinho roxo -->
+  <rect x="8" y="8" width="16" height="16" fill="#7F41EE" rx="2"/> <!-- Cabeça -->
+  <rect x="10" y="10" width="4" height="4" fill="white"/> <!-- Olho esquerdo -->
+  <rect x="18" y="10" width="4" height="4" fill="white"/> <!-- Olho direito -->
+  <rect x="12" y="16" width="8" height="2" fill="white"/> <!-- Boca -->
+  <line x1="16" y1="6" x2="16" y2="8" stroke="#7F41EE" stroke-width="2"/> <!-- Antena -->
+  <circle cx="16" cy="5" r="1" fill="#7F41EE"/> <!-- Ponta da antena -->
+</svg>

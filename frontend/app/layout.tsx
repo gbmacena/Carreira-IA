@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "CarreiraAI - Análise Inteligente de Currículos",
   description:
     "Transforme seu currículo com análise de IA avançada. Feedback profissional instantâneo e insights personalizados.",
+  icons: {
+    icon: { url: "/favicon.svg", type: "image/svg+xml" },
+  },
 };
 
 export default function RootLayout({
