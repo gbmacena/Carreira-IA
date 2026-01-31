@@ -20,6 +20,13 @@ Veja abaixo algumas telas da aplicação:
 
 ---
 
+## 🌐 Acesso ao Projeto Online
+
+- **Frontend:** [https://carreira-ia.vercel.app](https://carreira-ia.vercel.app)
+- **API Swagger:** [https://carreira-ia.onrender.com/api](https://carreira-ia.onrender.com/api)
+
+---
+
 ## 📋 Sobre o Projeto
 
 Este projeto oferece uma plataforma completa para análise de currículos, permitindo que recrutadores e empresas avaliem candidatos de forma rápida e objetiva através de inteligência artificial. O sistema analisa diversos aspectos do currículo, gerando scores detalhados e identificando o nível de senioridade do candidato.
