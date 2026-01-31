@@ -23,6 +23,7 @@ Veja abaixo algumas telas da aplicação:
 ## 🌐 Acesso ao Projeto Online
 
 - **Frontend:** [https://carreira-ia.vercel.app](https://carreira-ia.vercel.app)
+- **Backend:** [https://carreira-ia.onrender.com/api](https://carreira-ia.onrender.com)
 - **API Swagger:** [https://carreira-ia.onrender.com/api](https://carreira-ia.onrender.com/api)
 
 ---
