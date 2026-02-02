@@ -324,18 +324,8 @@ O sistema avalia currículos em 5 categorias principais:
 - ✅ CORS configurado
 - ✅ Variáveis de ambiente protegidas
 - ✅ Rate limiting (recomendado para produção)
-
-## 🤝 Contribuindo
-
-Tem sugestões, bugs ou quer discutir ideias? Use a aba <a href="../../issues">Issues</a> ou <a href="../../discussions">Discussões</a> do GitHub!
-
-Contribuições são bem-vindas! Sinta-se à vontade para:
-
-1. Fazer fork do projeto
-2. Criar uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commitar suas mudanças (`git commit -m 'Add: Minha nova feature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abrir um Pull Request
+  
+---
 
 ## 📝 Licença
 
