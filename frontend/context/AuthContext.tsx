@@ -28,13 +28,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      const response = await api.get("/auth/me");
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+      const response = await api.get("/auth/me", {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
       setUser(response.data);
-    } catch (error) {
-      Cookies.remove("accessToken");
-      Cookies.remove("refreshToken");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+    } catch (error: any) {
+      if (
+        error.code === "ECONNABORTED" ||
+        error.code === "ERR_CANCELED" ||
+        error.message?.includes("timeout") ||
+        error.code === "ERR_NETWORK"
+      ) {
+        console.warn(
+          "Backend demorou muito (Render free tier?). Confiando no token existente...",
+        );
+
+        setUser({
+          id: "temp",
+          email: "loading...",
+          name: "Carregando...",
+        } as User);
+        setLoading(false);
+        return;
+      }
+
+      if (error.response?.status === 401) {
+        Cookies.remove("accessToken");
+        Cookies.remove("refreshToken");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }
