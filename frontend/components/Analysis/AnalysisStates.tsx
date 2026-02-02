@@ -31,32 +31,47 @@ interface FailedStateProps {
 }
 
 export const FailedState = ({ analysis }: FailedStateProps) => {
-  const errorMessage =
+  let errorMessage =
     analysis?.errorMessage ||
     "Houve um erro ao processar sua análise. Tente novamente.";
+
+  try {
+    const errorObj = JSON.parse(errorMessage);
+    if (errorObj.error) {
+      errorMessage =
+        errorObj.error.message || errorObj.error.code || errorMessage;
+    }
+  } catch {}
+
+  errorMessage = errorMessage.replace(/[{}"\[\]]/g, "").substring(0, 200);
 
   let errorTitle = "Falha no processamento";
   let errorDetails = errorMessage;
 
   if (
     errorMessage.includes("Limite") ||
+    errorMessage.includes("limite") ||
     errorMessage.includes("token") ||
-    errorMessage.includes("quota")
+    errorMessage.includes("quota") ||
+    errorMessage.includes("autenticação") ||
+    errorMessage.includes("API") ||
+    errorMessage.includes("free tier")
   ) {
-    errorTitle = "Limite de análises atingido";
+    errorTitle = "🎯 Limite temporário atingido";
     errorDetails =
-      "Você atingiu o limite de análises gratuitas. Tente novamente amanhã ou entre em contato com o suporte.";
+      "As análises com IA atingiram o limite diário (free tier). As APIs resetam automaticamente às 00h. Tente novamente amanhã! 🚀";
   } else if (errorMessage.includes("PDF") || errorMessage.includes("arquivo")) {
     errorTitle = "Erro ao processar o arquivo";
     errorDetails =
-      "O arquivo enviado não é um PDF válido ou está corrompido. Verifique o arquivo e tente novamente.";
+      "O arquivo enviado não pôde ser processado. Certifique-se de que é um PDF válido e tente novamente.";
   } else if (
     errorMessage.includes("conexão") ||
-    errorMessage.includes("network")
+    errorMessage.includes("network") ||
+    errorMessage.includes("timeout")
   ) {
     errorTitle = "Erro de conexão";
     errorDetails =
-      "Houve um problema de conexão. Tente novamente em alguns minutos.";
+      "Houve um problema de conexão com o serviço de IA (pode ser cold start do servidor). Aguarde alguns instantes e tente novamente.";
   }
 
   return (
@@ -78,17 +93,10 @@ export const FailedState = ({ analysis }: FailedStateProps) => {
               />
             </svg>
           </div>
-          <p className="text-red-700 text-lg font-medium">{errorTitle}</p>
-          <p className="text-gray-600 mt-2">{errorDetails}</p>
-          {errorMessage && errorMessage !== errorDetails && (
-            <div className="mt-4 p-3 bg-red-100 rounded-lg text-left max-w-md mx-auto">
-              <p className="text-xs text-red-700 font-mono break-words">
-                {errorMessage}
-              </p>
-            </div>
-          )}
+          <p className="text-red-700 text-lg font-medium mb-2">{errorTitle}</p>
+          <p className="text-gray-700 mt-2 px-4">{errorDetails}</p>
           <Link href="/dashboard">
-            <Button className="mt-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+            <Button className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
               Voltar ao Dashboard
             </Button>
           </Link>

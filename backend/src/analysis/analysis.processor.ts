@@ -108,8 +108,37 @@ export class AnalysisProcessor extends WorkerHost {
   }
 
   private formatErrorMessage(message: string): string {
-    if (message.includes('token') || message.includes('quota')) {
-      return 'Limite de análises atingido ou erro de autenticação com serviço de IA. Tente novamente mais tarde.';
+    try {
+      const errorObj = JSON.parse(message);
+      if (errorObj.error) {
+        message = errorObj.error.message || errorObj.error.code || message;
+      }
+    } catch {}
+
+    if (
+      message.includes('Invalid API key') ||
+      message.includes('invalid_api_key') ||
+      message.includes('API key')
+    ) {
+      return 'Limite de análises com IA atingido (free tier). As APIs resetam automaticamente às 00h. Tente novamente amanhã!';
+    }
+
+    if (
+      message.includes('token') ||
+      message.includes('quota') ||
+      message.includes('rate_limit') ||
+      message.includes('429')
+    ) {
+      return 'Limite de análises atingido. Tente novamente mais tarde.';
+    }
+
+    if (
+      message.includes('401') ||
+      message.includes('403') ||
+      message.includes('unauthorized') ||
+      message.includes('authentication')
+    ) {
+      return 'Erro de autenticação com serviço de IA. Tente novamente em alguns minutos.';
     }
 
     if (
@@ -123,17 +152,18 @@ export class AnalysisProcessor extends WorkerHost {
     if (
       message.includes('timeout') ||
       message.includes('network') ||
-      message.includes('ECONNREFUSED')
+      message.includes('ECONNREFUSED') ||
+      message.includes('ETIMEDOUT')
     ) {
       return 'Erro de conexão com serviço de IA. Tente novamente em alguns minutos.';
     }
 
-    if (message.includes('currículo') || message.includes('INVALID')) {
+    if (message.includes('currículo')) {
       return message;
     }
 
-    if (message.length > 200) {
-      return message.substring(0, 200) + '...';
+    if (message.length > 150) {
+      return 'Erro ao processar análise. Tente novamente ou entre em contato com o suporte.';
     }
 
     return message;
